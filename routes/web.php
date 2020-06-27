@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', 'WelcomeController')->name('Welcome');
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/Home', 'Home\HomeController@index')->name('Home');
+Route::get('/About', 'About\AboutController')->name('About');
+Route::resource('Mahasiswa', 'Mahasiswa\MahasiswaController');

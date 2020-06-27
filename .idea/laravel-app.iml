@@ -107,5 +107,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="particles" level="application" />
+    <orderEntry type="library" name="stats" level="application" />
   </component>
 </module>
