@@ -34,9 +34,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        @auth()
                         <li class="nav-item"><a href="{{ route('Home') }}" class="nav-link">{{ __('Home') }}</a></li>
                         <li class="nav-item"><a href="{{ route('About') }}" class="nav-link">{{ __('About') }}</a></li>
-                        <li class="nav-item"><a href="{{ route('Mahasiswa.index') }}" class="nav-link">{{ __('Mahasiswa') }}</a></li>
+                        <li class="nav-item"><a href="{{ route('Student.index') }}" class="nav-link">{{ __('Student') }}</a></li>
+                        @endauth
+                        <li class="nav-item"><a href="{{ route('People.index') }}" class="nav-link">{{ __('People') }}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -72,9 +75,7 @@
         </nav>
     </header>
     <main>
-        <div id="app">
-            @yield('content')
-        </div>
+        @yield('content')
     </main>
     <footer class="d-flex flex-row justify-content-center align-items-center bg-dark text-white fixed-bottom position-fixed">
         <p class="m-0 mt-3 mb-3">Copyright &copy; 2020. Adam Arthur Faizal</p>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mahasiswa;
+namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Student;
@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
-class MahasiswaController extends Controller
+class StudentController extends Controller
 {
     /**
-     * MahasiswaController constructor.
+     * StudentController constructor.
      * @return void
      */
     public function __construct()
@@ -28,7 +28,7 @@ class MahasiswaController extends Controller
      */
     public function index(): View
     {
-        return view('Mahasiswa.index', ['students' => Student::all()]);
+        return view('Student.index', ['students' => Student::all()]);
     }
 
     /**
@@ -55,21 +55,21 @@ class MahasiswaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Student $student
-     * @return void
+     * @param Student $Student
+//     * @return void
      */
-    public function show(Student $student)
+    public function show(Student $Student)
     {
-        //
+        return $Student;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Student $student
+     * @param Student $Student
      * @return Response
      */
-    public function edit(Student $student)
+    public function edit(Student $Student)
     {
         //
     }
@@ -78,10 +78,10 @@ class MahasiswaController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Student $student
+     * @param Student $Student
      * @return Response
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, Student $Student)
     {
         //
     }
@@ -89,10 +89,10 @@ class MahasiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Student $student
+     * @param Student $Student
      * @return Response
      */
-    public function destroy(Student $student)
+    public function destroy(Student $Student)
     {
         //
     }

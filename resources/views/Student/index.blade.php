@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Mahasiswa Page')
+@section('title', 'Student Page')
 @section('content')
     <section id="mahasiswa_index" class="flex-center full-height">
-        <div class="content container mt-5">
+        <div class="content container mt-5 mb-5">
             <div class="title m-0 font-weight-bold">Daftar Mahasiswa</div>
             <table class="table table-striped">
                 <thead class="thead-dark">

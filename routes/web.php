@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'WelcomeController')->name('Welcome');
+Route::resource('People', 'People\PeopleController');
 Auth::routes();
 Route::get('/Home', 'Home\HomeController@index')->name('Home');
 Route::get('/About', 'About\AboutController')->name('About');
-Route::resource('Mahasiswa', 'Mahasiswa\MahasiswaController');
+Route::resource('Student', 'Student\StudentController');
