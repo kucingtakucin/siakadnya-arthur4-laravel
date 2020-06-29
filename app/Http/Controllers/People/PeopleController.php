@@ -5,6 +5,7 @@ namespace App\Http\Controllers\People;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\People as PeopleResources;
 use App\People;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -14,6 +15,10 @@ use Illuminate\View\View;
 
 class PeopleController extends Controller
 {
+    /**
+     * PeopleController constructor.
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('web');
@@ -28,8 +33,8 @@ class PeopleController extends Controller
     {
         try {
             return view('People.index', ['peoples' => People::all()]);
-        } catch (\Exception $exception) {
-            return redirect()->route('Welcome')->with('status', $exception->getMessage());
+        } catch (Exception $exception) {
+            return redirect()->route('Welcome')->with('error', $exception->getMessage());
         }
     }
 
@@ -51,19 +56,19 @@ class PeopleController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $request->validate([
+            'cardnumber' => 'required|numeric|digits:8',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'name' => 'required|string',
+            'jobtitle' => 'required|string',
+            'year' => 'required|integer',
+        ]);
         try {
-            $request->validate([
-                'cardnumber' => 'required|numeric|digits:8',
-                'firstname' => 'required|string',
-                'lastname' => 'required|string',
-                'name' => 'required|string',
-                'jobtitle' => 'required|string',
-                'year' => 'required|integer',
-            ]);
             People::create($request->all());
             return redirect()->route('People.index')->with('status','Data Person berhasil ditambahkan!');
-        } catch (\Exception $exception) {
-            return redirect()->route('People.index')->with('status',$exception->getMessage());
+        } catch (Exception $exception) {
+            return redirect()->route('People.create')->with('status',$exception->getMessage());
         }
     }
 
@@ -116,8 +121,8 @@ class PeopleController extends Controller
                 "year" => $request->year,
             ]);
             return redirect()->route('People.index')->with('status', 'Data Person berhasil diupdate!');
-        } catch (\Exception $exception) {
-            return redirect()->route('People.index')->with('status', $exception->getMessage());
+        } catch (Exception $exception) {
+            return redirect()->route('People.update')->with('error', $exception->getMessage());
         }
     }
 
@@ -132,8 +137,8 @@ class PeopleController extends Controller
         try {
             People::destroy($Person->id);
             return redirect()->route('People.index')->with('status', 'Data Person berhasil dihapus!');
-        } catch (\Exception $exception) {
-            return redirect()->route('People.index')->with('status', $exception->getMessage());
+        } catch (Exception $exception) {
+            return redirect()->route('People.index')->with('error', $exception->getMessage());
         }
     }
 }
