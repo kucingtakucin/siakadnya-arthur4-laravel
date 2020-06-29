@@ -32,8 +32,8 @@
                         <td>{{ $people->jobtitle }}</td>
                         <td>
                             <button type="button" class="btn badge badge-info people-detail" data-toggle="modal" data-target="#detailModal" data-baseurl="{{ route('People.show',$people->id) }}">Detail</button>
-                            <button type="button" class="btn badge badge-warning" data-toggle="modal" data-target="#updateModal" data-baseurl="{{ route('People.show',$people->id) }}">Update</button>
-                            <a href="" class="badge badge-danger">Delete</a>
+                            <a href="{{ route('People.edit',$people->id) }}" class="btn badge badge-warning">Update</a>
+                            <button type="button" class="btn badge badge-danger people-confirm-delete" data-toggle="modal" data-target="#deleteModal" data-baseurl="{{ route('People.destroy',$people->id) }}">Delete</button>
                         </td>
                     </tr>
                 @endforeach
@@ -41,5 +41,10 @@
             </table>
         </div>
         <div id="people_detail"></div>
+        <form action="" method="post" class="people-delete-form">
+            @csrf
+            @method('delete')
+            <div id="people_confirm_delete"></div>
+        </form>
     </section>
 @endsection

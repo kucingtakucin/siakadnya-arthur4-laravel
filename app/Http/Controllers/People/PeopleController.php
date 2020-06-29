@@ -22,11 +22,15 @@ class PeopleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|Response|View
+     * @return Application|Factory|RedirectResponse|Response|View
      */
-    public function index(): View
+    public function index()
     {
-        return view('People.index', ['peoples' => People::all()]);
+        try {
+            return view('People.index', ['peoples' => People::all()]);
+        } catch (\Exception $exception) {
+            return redirect()->route('Welcome')->with('status', $exception->getMessage());
+        }
     }
 
     /**
@@ -45,18 +49,22 @@ class PeopleController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'cardnumber' => 'required|integer|size:8',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'name' => 'required|string',
-            'jobtitle' => 'required|string',
-            'year' => 'required|integer',
-        ]);
-        People::create($request->all());
-        return redirect()->route('People.index')->with('status','Data People berhasil ditambahkan!');
+        try {
+            $request->validate([
+                'cardnumber' => 'required|numeric|digits:8',
+                'firstname' => 'required|string',
+                'lastname' => 'required|string',
+                'name' => 'required|string',
+                'jobtitle' => 'required|string',
+                'year' => 'required|integer',
+            ]);
+            People::create($request->all());
+            return redirect()->route('People.index')->with('status','Data Person berhasil ditambahkan!');
+        } catch (\Exception $exception) {
+            return redirect()->route('People.index')->with('status',$exception->getMessage());
+        }
     }
 
     /**
@@ -65,7 +73,7 @@ class PeopleController extends Controller
      * @param People $Person
      * @return PeopleResources
      */
-    public function show(People $Person)
+    public function show(People $Person): PeopleResources
     {
         return new PeopleResources($Person);
     }
@@ -73,34 +81,59 @@ class PeopleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param People $people
-     * @return Response
+     * @param People $Person
+     * @return Application|Factory|View
      */
-    public function edit(People $people)
+    public function edit(People $Person): View
     {
-        //
+        return view('People.edit', ['person' => $Person]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param People $people
-     * @return Response
+     * @param People $Person
+     * @return RedirectResponse
      */
-    public function update(Request $request, People $people)
+    public function update(Request $request, People $Person): RedirectResponse
     {
-        //
+        $request->validate([
+            'cardnumber' => 'required|numeric|digits:8',
+            'name' => 'required|string',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'jobtitle' => 'required|string',
+            'year' => 'required|integer',
+        ]);
+        try {
+            People::where('id', $Person->id)->update([
+                "cardnumber" => $request->cardnumber,
+                "name" => $request->name,
+                "firstname" => $request->firstname,
+                "lastname" => $request->lastname,
+                "jobtitle" => $request->jobtitle,
+                "year" => $request->year,
+            ]);
+            return redirect()->route('People.index')->with('status', 'Data Person berhasil diupdate!');
+        } catch (\Exception $exception) {
+            return redirect()->route('People.index')->with('status', $exception->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param People $people
-     * @return Response
+     * @param People $Person
+     * @return RedirectResponse
      */
-    public function destroy(People $people)
+    public function destroy(People $Person): RedirectResponse
     {
-        //
+        try {
+            People::destroy($Person->id);
+            return redirect()->route('People.index')->with('status', 'Data Person berhasil dihapus!');
+        } catch (\Exception $exception) {
+            return redirect()->route('People.index')->with('status', $exception->getMessage());
+        }
     }
 }
